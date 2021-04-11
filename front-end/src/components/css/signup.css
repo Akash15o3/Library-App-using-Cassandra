@@ -1,0 +1,32 @@
+.container-fluid{
+    background-color: #000;
+    color: #fff;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    min-height: 100vh;
+}
+
+.appname{
+    font-size: 4.5rem;
+    margin-bottom: 5%;
+    color: #17a2b8
+}
+
+.login-form{
+    margin: 8% 36%;
+    border: 2px solid white;
+    border-radius: 26px;
+    padding: 2% 5% 5% 5%; 
+}
+
+.login-header{
+    margin-bottom: 15%;
+}
+
+.login-button{
+    margin-top: 10%;
+}
+
+.btn-link{
+    color: #17a2b8;
+}

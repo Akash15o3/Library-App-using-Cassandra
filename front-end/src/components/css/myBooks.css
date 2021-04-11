@@ -1,0 +1,42 @@
+.container-fluid{
+    background-color: #000;
+    color: #fff;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    min-height: 100vh;
+}
+
+.appname{
+    font-size: 4.5rem;
+    margin-bottom: 2%;
+    color: #17a2b8
+}
+
+.name{
+    font-size: 2.5rem;
+    margin-bottom: 2%;
+}
+
+.table-header{
+    font-size: 2rem;
+}
+
+.mybooks{
+    font-size: 1.5rem;
+}
+
+.table{
+    color: white
+}
+
+.table tr:nth-child(even) {
+    background-color:#646464 !important;
+}
+
+.table tr:nth-child(odd) {
+    background-color: #464646 !important;
+}
+
+  .table th {
+    background-color: black;
+}
