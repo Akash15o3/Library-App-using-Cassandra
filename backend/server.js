@@ -12,6 +12,11 @@ app.use("/prof_pic", express.static("public"));
 app.use(cookieParser());
 app.use(cors({ origin: "http://54.193.67.21:3000", credentials: true }));
 
+const insert = require("./insert");
+const login = require("./login");
+const books = require("./books");
+const user_profile = require("./profile");
+
 app.use(
   session({
     secret: "cmpe220project",
@@ -49,21 +54,71 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage });
 
-const client = new cassandra.Client({
+const con = new cassandra.Client({
     contactPoints: ['127.0.0.1'],
     localDataCenter: 'datacenter1',
     keyspace: 'test_keyspace'
   });
-client.connect(function(err,result){
+con.connect(function(err,result){
     if(err){
         console.log(err)
     }
     else{
         console.log("Cassandra connected")
     }
-}
+})
+con.execute(`SELECT * FROM  Users`, function (err, rows, fields) {
+    if (err) throw err;
+    else {
+      console.log("success");
+    //   console.log(rows);
+      // res.send(rows);
+    }
+  });
 
-)
+  app.post("/signup", function (req, res) {
+    console.log("Req Body : ", req.body);
+    var ins = new insert.insert();
+    ins.insert_user(con, req.body, res);
+  });
+  
+  //Route to handle Post Request Call
+  app.post("/login", function (req, res) {
+    console.log("Req Body : ", req.body);
+    var ins = new login.login();
+    ins.login_user(con, req, res);
+  });
+
+  app.get("/getAllBooks", function (req, res) {
+    console.log("Req Body : ", req.body);
+    var book = new books.books();
+    book.getAllBooks(con, req, res);
+  });
+
+  app.post("/insertBook", function (req, res) {
+    console.log("Req Body : ", req.body);
+    var book = new books.books();
+    book.insertBook(con, req, res);
+  });
+
+  app.get("/searchTitle", function (req, res) {
+    console.log("Req Body : ", req.body);
+    var book = new books.books();
+    book.searchTitle(con, req, res);
+  });
+
+  app.get("/searchAuthor", function (req, res) {
+    console.log("Req Body : ", req.body);
+    var book = new books.books();
+    book.searchAuthor(con, req, res);
+  });
+
+  app.get("/user_profile", function (req, res) {
+    console.log("Req Body : ", req.body);
+    var ins = new user_profile.profile();
+    ins.getbasicinfo(con, req, res);
+  });
+
 app.listen(3001);
 console.log("Server Listening on port 3001");
 
