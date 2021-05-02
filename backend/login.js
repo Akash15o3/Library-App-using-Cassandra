@@ -6,14 +6,16 @@ var login = class login {
 
     var cql =
       "SELECT emailid, password FROM Users where emailid = '" +
-      req.body.emailid +
-      "'";
+      req.body.emailid + 
+      "'" + "ALLOW FILTERING";
     var pass, id;
     con.execute(cql, function(err, result, fields) {
       if (err) throw err;
-      console.log(result[0].emailid);
-      pass = result[0].password;
-      id = result[0].emailid;
+      
+      console.log("printing password of result",result);
+      pass = result.rows[0].password;
+      id = result.rows[0].emailid;
+      console.log("PASS AND ID:::", result.rows[0].emailid)
 
       if (pass === req.body.password) {
         res.cookie("cookie", id, {

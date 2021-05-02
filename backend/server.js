@@ -101,19 +101,19 @@ con.execute(`SELECT * FROM  Users`, function (err, rows, fields) {
     book.insertBook(con, req, res);
   });
 
-  app.get("/searchTitle", function (req, res) {
+  app.post("/searchTitle", function (req, res) {
     console.log("Req Body : ", req.body);
     var book = new books.books();
     book.searchTitle(con, req, res);
   });
 
-  app.get("/searchAuthor", function (req, res) {
+  app.post("/searchAuthor", function (req, res) {
     console.log("Req Body : ", req.body);
     var book = new books.books();
     book.searchAuthor(con, req, res);
   });
 
-  app.get("/user_profile", function (req, res) {
+  app.post("/user_profile", function (req, res) {
     console.log("Req Body : ", req.body);
     var ins = new user_profile.profile();
     ins.getbasicinfo(con, req, res);

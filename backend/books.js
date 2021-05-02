@@ -15,14 +15,16 @@ var books = class books {
         res.writeHead(200, {
           "Content-Type": "application/json"
         });
-        res.end(JSON.stringify(result));
+        res.end(JSON.stringify(result.rows));
       });
     }
    
     insertBook(con, req, res) {
       var cql =
-        `INSERT INTO library_data(authors, title, publication_date, publisher, num_pages, isbn) VALUES (` +
-        `'` +
+        `INSERT INTO library_data(bookID,authors, title, publication_date, publisher, num_pages, isbn) VALUES (` +
+        // `'` +
+        req.body.bookID +
+        `,'` +
         req.body.authors +
         `','` +
         req.body.title +
@@ -30,24 +32,24 @@ var books = class books {
         req.body.publication_date +
         `','` +
         req.body.publisher +
-        `','` +
+        `',` +
         req.body.num_pages +
-        `','` +
+        `,'` +
         req.body.isbn +
         `')`;
       console.log(cql);
       con.execute(cql, function(err, result) {
         res.writeHead(200, {
-          "Content-Type": "application/json"
+          "Content-Type": "text/plain"
         });
         console.log(JSON.stringify(result));
-        res.end(JSON.stringify(result));
+        res.end("book added");
       });
     }
 
     searchTitle(con, req, res) {
         var cql =
-          "SELECT * FROM library_data where title = '" + req.body.title + "'";
+          "SELECT * FROM library_data where title = '" + req.body.title + "'" + "ALLOW FILTERING";
         var final;
     
         con.execute(cql, function(err, result, fields) {
@@ -56,23 +58,24 @@ var books = class books {
             "Content-Type": "application/json"
           });
           console.log(JSON.stringify(result));
-          res.end(JSON.stringify(result));
+          res.end(JSON.stringify(result.rows));
         });
 
       }
 
       searchAuthor(con, req, res) {
         var cql =
-          "SELECT * FROM library_data where authors = '" + req.body.authors + "'";
+          "SELECT * FROM library_data where authors = '" + req.body.authors + "'" + "ALLOW FILTERING";
         var final;
-    
+        console.log(req.body.authors);
         con.execute(cql, function(err, result, fields) {
           if (err) throw err;
+          // console.log("reeeee",result.columns);
           res.writeHead(200, {
             "Content-Type": "application/json"
           });
-          console.log(JSON.stringify(result));
-          res.end(JSON.stringify(result));
+          // console.log(JSON.stringify(result));
+          res.end(JSON.stringify(result.rows));
         });
       }
   };
